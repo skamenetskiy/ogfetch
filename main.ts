@@ -22,7 +22,6 @@ async function handler(req: Request): Promise<Response> {
         }
         const contents = await fetchUrlContents(request.url);
         const $ = cheerio.load(contents);
-        console.log($.html());
         const title = $('meta[property="og:title"]').attr("content");
         const image = $('meta[property="og:image"]').attr("content");
         const description = $('meta[property="og:description"]').attr(
@@ -93,6 +92,7 @@ async function fetchUrlContents(url: string): Promise<string> {
         });
         if (res.status >= 400) {
             console.error(`[${res.status}] unable to fetch ${url}`);
+            // console.log(headers, res.status, res.headers);
             throw new Error(`unable to fetch ${url}`);
         }
         const location = res.headers.get("location");
